@@ -22,8 +22,4 @@ class Teacher:
             val = int(out[:i])
             self.model.add(item[0], item[1], val)
             print("ADDED : " + item[0] + " " + item[1] + " " + str(val))
-
-    def print_content(self):
-        vect, mat = self.model.get_datas()
-        print(vect)
-        print(mat)
+        print("DONE")

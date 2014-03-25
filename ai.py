@@ -1,6 +1,12 @@
 from songmodel import SongModel
 import subprocess
 
+genre = []
+genre.append("dubstep")
+genre.append("dnb")
+genre.append("electro")
+genre.append("house")
+
 class AI:
     def __init__(self, song):
         self.song = song
@@ -21,24 +27,7 @@ class AI:
             self.get_song_datas()
         return abs(bpm - self.val)
 
-    def classify(self):
-        dist = []
-        vect, mat = self.model.get_datas()
-        i = 0
-        for item in mat:
-            dist.append([i, self.distance(item[0])])
-            i += 1
-        print(dist)
-        dist = sorted(dist, key=lambda x: x[1])
-        print(dist)
-        k = 4
-        i = 0
-        ktab = []
-        while i < k:
-            ktab.append(vect[dist[i][0]])
-            i += 1
-        ktab.sort()
-        print(ktab)
+    def get_max(self, ktab):
         count = 0
         maxval = 0
         val = 0
@@ -51,4 +40,24 @@ class AI:
                 val = item
             count += 1
             last = item
-        print(val)
+        return val
+
+    def knn(self, dist, k, vect):
+        i = 0
+        ktab = []
+        while i < k:
+            ktab.append(vect[dist[i][0]])
+            i += 1
+        ktab.sort()
+        return self.get_max(ktab)
+
+    def classify(self):
+        dist = []
+        vect, mat = self.model.get_datas()
+        i = 0
+        for item in mat:
+            dist.append([i, self.distance(item[0])])
+            i += 1
+        dist = sorted(dist, key=lambda x: x[1])
+        style = genre[self.knn(dist, 5, vect)]
+        print("Your song is probably a " + style + " song!")

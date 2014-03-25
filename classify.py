@@ -7,10 +7,13 @@ from ai import AI
 def main():
     argv = sys.argv
     argc = len(argv)
-    #teacher = Teacher()
-    #teacher.train()
-    #teacher.print_content()
-    ai = AI(argv[1])
-    ai.classify()
+    if argc < 2:
+        print("Use classify --train or classify [song].")
+    elif argv[1] == "--train":
+        teacher = Teacher()
+        teacher.train()
+    else:
+        ai = AI(argv[1])
+        ai.classify()
 
 main()
