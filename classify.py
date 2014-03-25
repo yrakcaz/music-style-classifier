@@ -7,7 +7,7 @@ from ai import AI
 def main():
     argv = sys.argv
     argc = len(argv)
-    if argc < 2:
+    if argc < 2 or argv[1] == "--help":
         print("Use classify --train or classify [song].")
     elif argv[1] == "--train":
         teacher = Teacher()
