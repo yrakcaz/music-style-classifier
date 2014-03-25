@@ -1,9 +1,7 @@
-#! env python2.7
-
 import sqlite3
 
 #genre have to be modified
-genre = {"dubstep": 1, "lol": 2}
+genre = {"dubstep": 1, "dnb": 2, "electro": 3, "house": 4}
 
 class SongModel:
     def __init__(self):
