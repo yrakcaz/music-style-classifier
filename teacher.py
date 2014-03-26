@@ -20,6 +20,12 @@ class Teacher:
             while out[i] != '\n' and out[i] != '.':
                 i += 1
             val = int(out[:i])
-            self.model.add(item[0], item[1], val)
-            print("ADDED : " + item[0] + " " + item[1] + " " + str(val))
+            sub1 = subprocess.Popen(["sh", "-c", "training/BPMDetector --moy " + item[0]], bufsize = 0, stdout = subprocess.PIPE, stdin = subprocess.PIPE)
+            out, err = sub1.communicate()
+            i = 0
+            while out[i] != '\n':
+                i += 1
+            val1 = int(out[:i]) / 2000000
+            self.model.add(item[0], item[1], val, val1)
+            print("ADDED : " + item[0] + " " + item[1] + " " + str(val) + " " + str(val1))
         print("DONE")
