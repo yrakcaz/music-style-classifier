@@ -1,6 +1,6 @@
 import sqlite3
 
-genre = {"dubstep": 0, "dnb": 1, "electro": 2, "house": 3}
+genre = {"dubstep": 0, "dnb": 1, "electro": 2, "house": 3, "trance": 4}
 
 class SongModel:
     def __init__(self):

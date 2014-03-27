@@ -6,6 +6,7 @@ genre.append("dubstep")
 genre.append("dnb")
 genre.append("electro")
 genre.append("house")
+genre.append("trance")
 
 class AI:
     def __init__(self, song):
