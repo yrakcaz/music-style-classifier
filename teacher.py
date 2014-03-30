@@ -25,7 +25,7 @@ class Teacher:
             i = 0
             while out[i] != '\n':
                 i += 1
-            val1 = int(out[:i]) / 2000000
+            val1 = abs(int(out[:i]) / 4000000)
             self.model.add(item[0], item[1], val, val1)
             print("ADDED : " + item[0] + " " + item[1] + " " + str(val) + " " + str(val1))
         print("DONE")

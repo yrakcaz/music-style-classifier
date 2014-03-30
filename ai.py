@@ -31,7 +31,7 @@ class AI:
         while out[i] != '\n':
             i += 1
         val = int(out[:i])
-        self.val1 = val / 2000000
+        self.val1 = abs(val / 4000000)
 
     def get_song_datas(self):
         self.get_tempo()
@@ -40,7 +40,7 @@ class AI:
     def distance(self, bpm, moy):
         if (self.val == 0 and self.val1 == 0):
             self.get_song_datas()
-        return math.sqrt((bpm - self.val) * (bpm - self.val) + (moy - self.val1) * (moy - self.val1))
+        return math.sqrt((bpm - self.val) ** 2 + (moy - self.val1) ** 2)
 
     def get_max(self, ktab):
         count = 0
@@ -75,4 +75,4 @@ class AI:
             i += 1
         dist = sorted(dist, key=lambda x: x[1])
         style = genre[self.knn(dist, 5, vect)]
-        print("Your song is probably a " + style + " song!")
+        print(style)
