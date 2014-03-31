@@ -1,8 +1,8 @@
 #! env python2.7
 
 import sys
-from teacher import Teacher
-from ai import AI
+from src.teacher import Teacher
+from src.ai import AI
 
 def main():
     argv = sys.argv
