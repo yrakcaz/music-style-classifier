@@ -12,6 +12,9 @@ def main():
     elif argv[1] == "--train":
         teacher = Teacher()
         teacher.train()
+    elif argv[1] == "--display":
+        teacher = Teacher()
+        teacher.display()
     else:
         ai = AI(argv[1])
         ai.classify()

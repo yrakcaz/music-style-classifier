@@ -4,7 +4,7 @@ genre = {"dubstep": 0, "dnb": 1, "electro": 2, "house": 3, "trance": 4}
 
 class SongModel:
     def __init__(self):
-        self.db = sqlite3.connect('datas.db')
+        self.db = sqlite3.connect('training/datas.db')
         with self.db:
             cur = self.db.cursor()
             cur.execute("CREATE TABLE IF NOT EXISTS Songs(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Style TEXT, Tempo INT, Moy INT)")

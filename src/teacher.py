@@ -1,5 +1,6 @@
 from songmodel import SongModel
 import json, subprocess
+import matplotlib.pyplot as plot
 
 class Teacher:
     def __init__(self):
@@ -25,7 +26,22 @@ class Teacher:
             i = 0
             while out[i] != '\n':
                 i += 1
-            val1 = abs(int(out[:i]) / 4000000)
+            val1 = abs(int(out[:i]) / 8000000)
             self.model.add(item[0], item[1], val, val1)
             print("ADDED : " + item[0] + " " + item[1] + " " + str(val) + " " + str(val1))
         print("DONE")
+
+    def display(self):
+        vect, mat = self.model.get_datas()
+        x = []
+        y = []
+        color = []
+        i = 0
+        for item in mat:
+            color.append
+            x.append(item[0])
+            y.append(item[1])
+            i += 1
+        plot.scatter(x, y, s=50, c=vect, alpha=0.5)
+        plot.show()
+
