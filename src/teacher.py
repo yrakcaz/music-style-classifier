@@ -1,6 +1,7 @@
 from songmodel import SongModel
 import json, subprocess
 import matplotlib.pyplot as plot
+import acoustid
 
 class Teacher:
     def __init__(self):
@@ -27,12 +28,13 @@ class Teacher:
             while out[i] != '\n':
                 i += 1
             val1 = abs(int(out[:i]) / 8000000)
-            self.model.add(item[0], item[1], val, val1)
-            print("ADDED : " + item[0] + " " + item[1] + " " + str(val) + " " + str(val1))
+            s, val2 = acoustid.fingerprint_file(item[0])
+            self.model.add(item[0], item[1], val, val1, val2)
+            print("ADDED : " + item[0] + " " + item[1] + " " + str(val) + " " + str(val1) + " " + str(val2))
         print("DONE")
 
     def display(self):
-        vect, mat = self.model.get_datas()
+        vect, mat, h = self.model.get_datas()
         x = []
         y = []
         color = []

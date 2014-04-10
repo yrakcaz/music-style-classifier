@@ -1,5 +1,6 @@
 from songmodel import SongModel
 import subprocess, math
+import acoustid
 
 genre = []
 genre.append("dubstep")
@@ -14,6 +15,7 @@ class AI:
         self.model = SongModel()
         self.val = 0
         self.val1 = 0
+        self.val2 = ""
 
     def get_tempo(self):
         sub = subprocess.Popen(["sh", "-c", "training/BPMDetector --display " + self.song], bufsize = 0, stdout = subprocess.PIPE, stdin = subprocess.PIPE)
@@ -33,14 +35,20 @@ class AI:
         val = int(out[:i])
         self.val1 = abs(val / 8000000)
 
+
     def get_song_datas(self):
         self.get_tempo()
         self.get_moy()
+        s, self.val2 = acoustid.fingerprint_file(self.song)
 
-    def distance(self, bpm, moy):
+    def distance(self, bpm, moy, fingerprint):
         if (self.val == 0 and self.val1 == 0):
             self.get_song_datas()
-        return math.sqrt((bpm - self.val) ** 2 + (moy - self.val1) ** 2 )
+        fingerdist = 0
+        for i in xrange(min(len(fingerprint), len(self.val2))):
+            fingerdist += abs(fingerprint[i] - self.val2[i])
+        fingerdist /= min(len(fingerprint), len(self.val2))
+        return math.sqrt((bpm - self.val) ** 2 + (moy - self.val1) ** 2 + fingerdist ** 2)
 
     def get_max(self, ktab):
         count = 0
@@ -68,10 +76,10 @@ class AI:
 
     def classify(self):
         dist = []
-        vect, mat = self.model.get_datas()
+        vect, mat, h = self.model.get_datas()
         i = 0
         for item in mat:
-            dist.append([i, self.distance(item[0], item[1])])
+            dist.append([i, self.distance(item[0], item[1], h[i])])
             i += 1
         dist = sorted(dist, key=lambda x: x[1])
         style = genre[self.knn(dist, 3, vect)]
