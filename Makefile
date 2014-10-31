@@ -5,3 +5,6 @@ check:
 
 clean:
 	rm -f *.pyc src/*.pyc
+
+reset:
+	rm -f training/datas.db && echo ".table" | sqlite3 training/datas.db

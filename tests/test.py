@@ -9,14 +9,25 @@ def main():
     print("\033[34m\033[1m================================================\033[0m\033[0m")
     print("\033[34m\033[1m          TESTS Music Style Classifier          \033[0m\033[0m")
     print("\033[34m\033[1m================================================\033[0m\033[0m\n")
-    treat("training/set.txt")
+    treat("training/Tracks/ground_truth.csv")
 
 def parse_file(f):
-    content = ""
-    with open(f) as f:
-        for line in f:
-            content += line
-    return json.loads(content)
+        content = []
+        with open(f) as f:
+            for l in f:
+                l = l.replace('\"', '').replace('\n', '')
+                name = ""
+                genre = ""
+                flag = 0
+                for c in l:
+                    if c == ',':
+                        flag = 1
+                    elif flag == 0:
+                        name += c
+                    elif flag == 1:
+                        genre += c
+                content.append([name, genre])
+        return content
 
 def treat(f):
     nbtests = 0
@@ -39,5 +50,7 @@ def treat(f):
         else:
             print("\033[31m\033[1m[FAILURE]\033[0m\033[0m\n")
     print("\033[33m\033[1mSuccess : " + str(nbsucc) + "/" + str(nbtests) + "\033[0m\033[0m")
+    percent = (float(nbsucc) * 100.00) / float(nbtests)
+    print("\033[33m\033[1m\t-> " + str(percent) + "%" + "\033[0m\033[0m")
 
 main()

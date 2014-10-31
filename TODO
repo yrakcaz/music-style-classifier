@@ -2,7 +2,10 @@ TODO:
 =====
 
 --> Extract more and best features (make it works!)
---> Improve training set
+
+-> Adjust extracted values
+
+-> Test on different set that the one from training
 
 --> README
 
