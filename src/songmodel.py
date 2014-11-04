@@ -1,4 +1,5 @@
 import sqlite3
+import matplotlib.pyplot as plt
 
 class SongModel:
     def __init__(self):
@@ -36,3 +37,8 @@ class SongModel:
                 mat.append([row[3], row[4]])
                 i += 1
         return (vect, mat)
+
+    def plot(self):
+        vect, mat = self.get_datas()
+        plt.scatter([row[0] for row in mat], [row[1] for row in mat], c=vect)
+        plt.show()

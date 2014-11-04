@@ -3,6 +3,7 @@
 import sys
 from src.teacher import Teacher
 from src.ai import AI
+from src.songmodel import SongModel
 
 def main():
     argv = sys.argv
@@ -12,6 +13,9 @@ def main():
     elif argv[1] == "--train":
         teacher = Teacher()
         teacher.train()
+    elif argv[1] == "--plot":
+        model = SongModel()
+        model.plot()
     else:
         ai = AI(argv[1])
         ai.classify()
