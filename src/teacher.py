@@ -29,6 +29,7 @@ class Teacher:
         for item in self.parse_set():
             self.extractor.set_song(item[0])
             tempo = self.extractor.get_tempo()
-            self.model.add(item[0], item[1], tempo)
-            print("ADDED : " + item[0] + " " + item[1] + " " + str(tempo))
+            rolloff = self.extractor.get_rolloff_moy()
+            self.model.add(item[0], item[1], tempo, rolloff)
+            print("ADDED : " + item[0] + " " + item[1] + " " + str(tempo) + " " + str(rolloff))
         print("DONE")
