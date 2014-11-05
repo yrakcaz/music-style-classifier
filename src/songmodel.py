@@ -1,5 +1,6 @@
 import sqlite3
 import matplotlib.pyplot as plt
+from mpl_toolkits.mplot3d import Axes3D
 
 class SongModel:
     def __init__(self):
@@ -11,13 +12,13 @@ class SongModel:
         self.db = sqlite3.connect('training/datas.db')
         with self.db:
             cur = self.db.cursor()
-            cur.execute("CREATE TABLE IF NOT EXISTS Songs(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Style TEXT, Tempo INT, Rolloff FLOAT)")
+            cur.execute("CREATE TABLE IF NOT EXISTS Songs(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Style TEXT, Tempo INT, RolloffMoy FLOAT, RolloffEct FLOAT, FluxMoy FLOAT, FluxEct FLOAT)")
 
     def __del__(self):
         self.db.close()
 
-    def add(self, name, style, tempo, rolloff):
-        val = "INSERT INTO Songs ('Name', 'Style', 'Tempo', 'Rolloff') VALUES('" + name + "','" + style + "'," + str(tempo) + "," + str(rolloff) + ")"
+    def add(self, name, style, tempo, rolloffmoy, rolloffect, fluxmoy, fluxect):
+        val = "INSERT INTO Songs ('Name', 'Style', 'Tempo', 'RolloffMoy', 'RolloffEct', 'FluxMoy', 'FluxEct') VALUES('" + name + "','" + style + "'," + str(tempo) + "," + str(rolloffmoy) + "," + str(rolloffect) + "," + str(fluxmoy) + "," + str(fluxect) + ")"
         with self.db:
             cur = self.db.cursor()
             cur.execute("SELECT Id FROM Songs WHERE Name = '" + name + "'")
@@ -34,11 +35,17 @@ class SongModel:
             i = 0
             for row in rows:
                 vect.append(self.genre[row[2]])
-                mat.append([row[3], row[4]])
+                mat.append([row[3], row[4], row[5], row[6], row[7]])
                 i += 1
         return (vect, mat)
 
     def plot(self):
         vect, mat = self.get_datas()
-        plt.scatter([row[0] for row in mat], [row[1] for row in mat], c=vect)
+        #fig = plt.figure()
+        #ax = fig.add_subplot(111, projection='3d')
+        #ax.scatter([row[0] for row in mat], [row[1] for row in mat], [row[2] for row in mat], c=vect)
+        #ax.set_xlabel("BPM")
+        #ax.set_ylabel("rolloff moyen")
+        #ax.set_zlabel("rolloff ecart-type")
+        plt.scatter([row[3] for row in mat], [row[4] for row in mat], c=vect)
         plt.show()
