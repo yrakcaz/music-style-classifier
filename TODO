@@ -1,12 +1,18 @@
 TODO:
 =====
 
---> Extract more and best features (make it works!)
+-> Extract more and best features (make it works!)
 
 -> Adjust extracted values
 
 -> Test on different set that the one from training
 
---> README
+-> Redirect stderr
+
+-> Clean the code
+
+-> If plot stays, plot it properly..
+
+-> README
 
 -> Comments / Doxygen!
