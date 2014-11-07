@@ -12,13 +12,13 @@ class SongModel:
         self.db = sqlite3.connect('training/datas.db')
         with self.db:
             cur = self.db.cursor()
-            cur.execute("CREATE TABLE IF NOT EXISTS Songs(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Style TEXT, Tempo INT, RolloffMoy FLOAT, RolloffEct FLOAT, FluxMoy FLOAT, FluxEct FLOAT)")
+            cur.execute("CREATE TABLE IF NOT EXISTS Songs(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Style TEXT, Tempo INT, RolloffMoy FLOAT, RolloffEct FLOAT, ZcrMoy FLOAT, ZcrEct FLOAT)")
 
     def __del__(self):
         self.db.close()
 
-    def add(self, name, style, tempo, rolloffmoy, rolloffect, fluxmoy, fluxect):
-        val = "INSERT INTO Songs ('Name', 'Style', 'Tempo', 'RolloffMoy', 'RolloffEct', 'FluxMoy', 'FluxEct') VALUES('" + name + "','" + style + "'," + str(tempo) + "," + str(rolloffmoy) + "," + str(rolloffect) + "," + str(fluxmoy) + "," + str(fluxect) + ")"
+    def add(self, name, style, tempo, rolloffmoy, rolloffect, zcrmoy, zcrect):
+        val = "INSERT INTO Songs ('Name', 'Style', 'Tempo', 'RolloffMoy', 'RolloffEct', 'ZcrMoy', 'ZcrEct') VALUES('" + name + "','" + style + "'," + str(tempo) + "," + str(rolloffmoy) + "," + str(rolloffect) + "," + str(zcrmoy) + "," + str(zcrect) + ")"
         with self.db:
             cur = self.db.cursor()
             cur.execute("SELECT Id FROM Songs WHERE Name = '" + name + "'")

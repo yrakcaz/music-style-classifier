@@ -6,7 +6,7 @@ class Extractor:
         self.song = ""
         self.fp = FeaturePlan(sample_rate=44100)
         self.fp.addFeature('sr: SpectralRolloff')
-        self.fp.addFeature('sf: SpectralFlux')
+        self.fp.addFeature('zcr: ZCR')
         self.engine = Engine()
         self.engine.load(self.fp.getDataFlow())
         self.afp = AudioFileProcessor()
@@ -35,11 +35,11 @@ class Extractor:
         v = float(sum(l) / len(l))
         return (v ** 0.5) / 50
 
-    def get_flux_moy(self):
-        return float(((sum(self.feats['sf']) / len(self.feats['sf'])) / 1000000)[0])
+    def get_zcr_moy(self):
+        return float(((sum(self.feats['zcr']) / len(self.feats['zcr'])) * 1000)[0])
 
-    def get_flux_ect(self):
-        m = float((sum(self.feats['sf']) / len(self.feats['sf']))[0])
-        l = [(x - m) ** 2 for x in self.feats['sf']]
+    def get_zcr_ect(self):
+        m = float((sum(self.feats['zcr']) / len(self.feats['zcr']))[0])
+        l = [(x - m) ** 2 for x in self.feats['zcr']]
         v = float(sum(l) / len(l))
-        return (v ** 0.5) / 100000000
+        return (v ** 0.5) * 1000

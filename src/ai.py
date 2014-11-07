@@ -10,8 +10,8 @@ class AI:
         self.tempo = 0
         self.rolloffmoy = 0.0
         self.rolloffect = 0.0
-        self.fluxmoy = 0.0
-        self.fluxect = 0.0
+        self.zcrmoy = 0.0
+        self.zcrect = 0.0
         self.genre = []
         for l in open("training/Tracks/genres.txt"):
             self.genre.append(l.replace('\n',''))
@@ -21,13 +21,13 @@ class AI:
         self.tempo = self.extractor.get_tempo()
         self.rolloffmoy = self.extractor.get_rolloff_moy()
         self.rolloffect = self.extractor.get_rolloff_ect()
-        self.fluxmoy = self.extractor.get_flux_moy()
-        self.fluxect = self.extractor.get_flux_ect()
+        self.zcrmoy = self.extractor.get_zcr_moy()
+        self.zcrect = self.extractor.get_zcr_ect()
 
-    def distance(self, bpm, rolloffmoy, rolloffect, fluxmoy, fluxect):
-        if (self.tempo == 0 or self.rolloffmoy == 0.0 or self.rolloffect == 0.0 or self.fluxmoy == 0.0 or self.fluxect == 0.0):
+    def distance(self, bpm, rolloffmoy, rolloffect, zcrmoy, zcrect):
+        if (self.tempo == 0 or self.rolloffmoy == 0.0 or self.rolloffect == 0.0 or self.zcrmoy == 0.0 or self.zcrect == 0.0):
             self.get_song_datas()
-        return math.sqrt(((bpm - self.tempo) ** 2) + ((rolloffmoy - self.rolloffmoy) ** 2) + ((rolloffect - self.rolloffect) ** 2) + ((fluxmoy - self.fluxmoy) ** 2) + ((fluxect - self.fluxect) ** 2))
+        return math.sqrt(((bpm - self.tempo) ** 2) + ((rolloffmoy - self.rolloffmoy) ** 2) + ((rolloffect - self.rolloffect) ** 2) + ((zcrmoy - self.zcrmoy) ** 2) + ((zcrect - self.zcrect) ** 2))
 
     def get_max(self, ktab):
         count = 0
