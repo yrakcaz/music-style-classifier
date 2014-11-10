@@ -12,13 +12,13 @@ class SongModel:
         self.db = sqlite3.connect('training/datas.db')
         with self.db:
             cur = self.db.cursor()
-            cur.execute("CREATE TABLE IF NOT EXISTS Songs(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Style TEXT, Tempo INT, RolloffMoy FLOAT, RolloffEct FLOAT, ZcrMoy FLOAT, ZcrEct FLOAT)")
+            cur.execute("CREATE TABLE IF NOT EXISTS Songs(Id INTEGER PRIMARY KEY AUTOINCREMENT, Name TEXT, Style TEXT, Tempo INT, RolloffMoy FLOAT, RolloffEct FLOAT, ZcrMoy FLOAT, ZcrEct FLOAT, Duration FLOAT)")
 
     def __del__(self):
         self.db.close()
 
-    def add(self, name, style, tempo, rolloffmoy, rolloffect, zcrmoy, zcrect):
-        val = "INSERT INTO Songs ('Name', 'Style', 'Tempo', 'RolloffMoy', 'RolloffEct', 'ZcrMoy', 'ZcrEct') VALUES('" + name + "','" + style + "'," + str(tempo) + "," + str(rolloffmoy) + "," + str(rolloffect) + "," + str(zcrmoy) + "," + str(zcrect) + ")"
+    def add(self, name, style, tempo, rolloffmoy, rolloffect, zcrmoy, zcrect, duration):
+        val = "INSERT INTO Songs ('Name', 'Style', 'Tempo', 'RolloffMoy', 'RolloffEct', 'ZcrMoy', 'ZcrEct', 'Duration') VALUES('" + name + "','" + style + "'," + str(tempo) + "," + str(rolloffmoy) + "," + str(rolloffect) + "," + str(zcrmoy) + "," + str(zcrect) + "," + str(duration) + ")"
         with self.db:
             cur = self.db.cursor()
             cur.execute("SELECT Id FROM Songs WHERE Name = '" + name + "'")
@@ -35,7 +35,7 @@ class SongModel:
             i = 0
             for row in rows:
                 vect.append(self.genre[row[2]])
-                mat.append([row[3], row[4], row[5], row[6], row[7]])
+                mat.append([row[3], row[4], row[5], row[6], row[7], row[8]])
                 i += 1
         return (vect, mat)
 
@@ -47,5 +47,5 @@ class SongModel:
         #ax.set_xlabel("BPM")
         #ax.set_ylabel("rolloff moyen")
         #ax.set_zlabel("rolloff ecart-type")
-        plt.scatter([row[3] for row in mat], [row[4] for row in mat], c=vect)
+        plt.scatter([row[0] for row in mat], [row[5] for row in mat], c=vect)
         plt.show()

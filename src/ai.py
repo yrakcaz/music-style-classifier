@@ -12,6 +12,7 @@ class AI:
         self.rolloffect = 0.0
         self.zcrmoy = 0.0
         self.zcrect = 0.0
+        self.duration = 0.0
         self.genre = []
         for l in open("training/Tracks/genres.txt"):
             self.genre.append(l.replace('\n',''))
@@ -23,11 +24,12 @@ class AI:
         self.rolloffect = self.extractor.get_rolloff_ect()
         self.zcrmoy = self.extractor.get_zcr_moy()
         self.zcrect = self.extractor.get_zcr_ect()
+        self.duration = self.extractor.get_duration()
 
-    def distance(self, bpm, rolloffmoy, rolloffect, zcrmoy, zcrect):
-        if (self.tempo == 0 or self.rolloffmoy == 0.0 or self.rolloffect == 0.0 or self.zcrmoy == 0.0 or self.zcrect == 0.0):
+    def distance(self, bpm, rolloffmoy, rolloffect, zcrmoy, zcrect, duration):
+        if (self.tempo == 0 or self.rolloffmoy == 0.0 or self.rolloffect == 0.0 or self.zcrmoy == 0.0 or self.zcrect == 0.0 or self.duration == 0.0):
             self.get_song_datas()
-        return math.sqrt(((bpm - self.tempo) ** 2) + ((rolloffmoy - self.rolloffmoy) ** 2) + ((rolloffect - self.rolloffect) ** 2) + ((zcrmoy - self.zcrmoy) ** 2) + ((zcrect - self.zcrect) ** 2))
+        return math.sqrt(((bpm - self.tempo) ** 2) + ((rolloffmoy - self.rolloffmoy) ** 2) + ((rolloffect - self.rolloffect) ** 2) + ((zcrmoy - self.zcrmoy) ** 2) + ((zcrect - self.zcrect) ** 2) + ((duration - self.duration) ** 2))
 
     def get_max(self, ktab):
         count = 0
@@ -58,7 +60,7 @@ class AI:
         vect, mat = self.model.get_datas()
         i = 0
         for item in mat:
-            dist.append([i, self.distance(item[0], item[1], item[2], item[3], item[4])])
+            dist.append([i, self.distance(item[0], item[1], item[2], item[3], item[4], item[5])])
             i += 1
         dist = sorted(dist, key=lambda x: x[1])
         style = self.genre[self.knn(dist, 3, vect)]

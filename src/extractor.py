@@ -43,3 +43,12 @@ class Extractor:
         l = [(x - m) ** 2 for x in self.feats['zcr']]
         v = float(sum(l) / len(l))
         return (v ** 0.5) * 1000
+
+    def get_duration(self):
+        sub = subprocess.Popen(["sh", "-c",  "ffmpeg -i " + self.song + " 2>&1 | grep 'Duration' | cut -d ' ' -f 4 | sed s/,//"], bufsize = 0, stdout = subprocess.PIPE, stdin = subprocess.PIPE)
+        out, err = sub.communicate()
+        l = out.split(':')
+        ret = float(l[2])
+        ret += (float(l[1]) * 60)
+        ret += (float(l[0]) * 3600)
+        return ret / 7
