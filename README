@@ -1,4 +1,21 @@
 music-style-classifier
 ======================
 
-An AI that can classify musical styles
+An AI that can classify musical styles.
+
+Extracted features :
+
+- BPM
+- Spectral Rolloff
+- Zero Crossing Rate
+- Sound length
+
+Actual success rate : ~72%
+
+
+Usage:
+
+Training -> ./classify --train
+Classification -> ./classify <Sound File>
+
+(Supported formats : mp3, wav (at least))

@@ -1,11 +1,9 @@
 TODO:
 =====
 
--> Extract more and best features (make it works!)
+-> Extract more and best features (make it works!)              DONE
 
--> Adjust extracted values
-
--> SVM?
+-> SVM? Scikit?
 
 -> Test on different set that the one from training
 
