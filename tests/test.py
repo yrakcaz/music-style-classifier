@@ -6,6 +6,9 @@ import json
 def main():
     argv = sys.argv
     argc = len(argv)
+    if (argc != 2 or (argv[1] != "--svm" and argv[1] != "--knn")):
+        print("Use --knn or --svm option!")
+        sys.exit()
     print("\033[34m\033[1m================================================\033[0m\033[0m")
     print("\033[34m\033[1m          TESTS Music Style Classifier          \033[0m\033[0m")
     print("\033[34m\033[1m================================================\033[0m\033[0m\n")
@@ -34,7 +37,7 @@ def treat(f):
     nbsucc = 0
     for item in parse_file(f):
         nbtests += 1
-        sub = subprocess.Popen(["sh", "-c", "python2.7 classify.py " + item[0]],
+        sub = subprocess.Popen(["sh", "-c", "python2.7 classify.py " + sys.argv[1] + " " + item[0]],
                                bufsize = 0, stdout = subprocess.PIPE, stdin = subprocess.PIPE)
         out, err = sub.communicate()
         val = out[:len(out) - 1]

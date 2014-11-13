@@ -1,5 +1,10 @@
-check:
-	python2.7 tests/test.py
+checksvm:
+	python2.7 tests/test.py --svm
+
+checkknn:
+	python2.7 tests/test.py --knn
+
+check: checksvm checkknn
 
 clean:
 	rm -f *.pyc src/*.pyc

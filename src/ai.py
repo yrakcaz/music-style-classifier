@@ -1,5 +1,6 @@
 from songmodel import SongModel
 from extractor import Extractor
+from sklearn import svm, multiclass, neighbors
 import subprocess, math
 
 class AI:
@@ -26,42 +27,20 @@ class AI:
         self.zcrect = self.extractor.get_zcr_ect()
         self.duration = self.extractor.get_duration()
 
-    def distance(self, bpm, rolloffmoy, rolloffect, zcrmoy, zcrect, duration):
-        if (self.tempo == 0 or self.rolloffmoy == 0.0 or self.rolloffect == 0.0 or self.zcrmoy == 0.0 or self.zcrect == 0.0 or self.duration == 0.0):
-            self.get_song_datas()
-        return math.sqrt(((bpm - self.tempo) ** 2) + ((rolloffmoy - self.rolloffmoy) ** 2) + ((rolloffect - self.rolloffect) ** 2) + ((zcrmoy - self.zcrmoy) ** 2) + ((zcrect - self.zcrect) ** 2) + ((duration - self.duration) ** 2))
-
-    def get_max(self, ktab):
-        count = 0
-        maxval = 0
-        val = 0
-        last = 0
-        for item in ktab:
-            if last != item:
-                count = 0
-            if count > maxval:
-                maxval = count
-                val = item
-            count += 1
-            last = item
-        return val
-
-    def knn(self, dist, k, vect):
-        i = 0
-        ktab = []
-        while i < k:
-            ktab.append(vect[dist[i][0]])
-            i += 1
-        ktab.sort()
-        return self.get_max(ktab)
-
-    def classify(self):
-        dist = []
+    def classify_with_knn(self):
         vect, mat = self.model.get_datas()
-        i = 0
-        for item in mat:
-            dist.append([i, self.distance(item[0], item[1], item[2], item[3], item[4], item[5])])
-            i += 1
-        dist = sorted(dist, key=lambda x: x[1])
-        style = self.genre[self.knn(dist, 3, vect)]
-        print(style)
+        clf = neighbors.KNeighborsClassifier()
+        clf.fit(mat, vect)
+        self.get_song_datas()
+        l = [[self.tempo, self.rolloffmoy, self.rolloffect, self.zcrmoy, self.zcrect, self.duration]]
+        ret = clf.predict(l)
+        print(self.genre[ret[0]])
+
+    def classify_with_svm(self):
+        vect, mat = self.model.get_datas()
+        clf = svm.SVC(class_weight='auto', kernel='linear')
+        clf.fit(mat, vect)
+        self.get_song_datas()
+        l = [[self.tempo, self.rolloffmoy, self.rolloffect, self.zcrmoy, self.zcrect, self.duration]]
+        ret = clf.predict(l)
+        print(self.genre[int(ret[0])])
